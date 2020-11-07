@@ -3,18 +3,79 @@
 
 <head>
   <title>Hello! Vue.js</title>
+  <style>
+    .v-enter-active,
+    .v-leave-active {
+      transition: opacity 1s;
+    }
+
+    .v-enter,
+    .v-leave-to {
+      opacity: 0;
+    }
+  </style>
 </head>
 
 <body>
   <div id="app">
-    <h1>{{ message }}</h1>
+    <transition>
+      <h1 v-if="show">{{ message }}</h1>
+    </transition>
+
+    <button v-on:click="show=!show">show / hide</button>
   </div>
+
+  <hr>
+
+  <div id="list_test">
+    <li v-for="item in list">{{ item }}</li>
+    <button v-on:click="handleClick">Click to add (´･ω･`)</button>
+  </div>
+
+  <hr>
+
+  <div id="input_test">
+    <p v-if="show">{{ message }}</p>
+    <input v-model="message">
+    <button v-on:click="clickToSwitch">show / hide</button>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
   <script>
     var app = new Vue({
       el: '#app',
       data: {
-        message: 'Hello Vue.js!'
+        message: 'Hello Vue.js!',
+        show: true
+      },
+      beforeUpdate: function () {
+        alert('Change!')
+      },
+      created: function () {
+        console.log("app created.")
+      }
+    })
+    var list_item = new Vue({
+      el: '#list_test',
+      data: {
+        list: ['(っ˘꒳˘c)', `(っ ॑꒳ ॑c)`, `(っºΔºc)`],
+      },
+      methods: {
+        handleClick: function () {
+          list_item.list.push('(´･ω･`)')
+        }
+      }
+    })
+    var input_test = new Vue({
+      el: '#input_test',
+      data: {
+        message: 'input message below.',
+        show: true
+      },
+      methods: {
+        clickToSwitch: function () {
+          input_test.show = !input_test.show
+        }
       }
     })
   </script>

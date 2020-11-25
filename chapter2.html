@@ -3,11 +3,140 @@
 
 <head>
   <title>Chapter2</title>
+  <style>
+    .box {
+      border: 1px solid #000;
+      overflow: scroll;
+      height: 100px;
+    }
+    .child {
+      color: #cc9000;
+    }
+    .is-active {
+      text-decoration: dashed underline red;
+    }
+    </style>
 </head>
 
 <body>
+  <h2>SECTION 08</h2>
+  <div id="sec08">
+    <p>{{ message.value }}</p>
+    <p>message length is {{ message.value.length }}</p>
+    <hr>
+    v-bind test
+    <input type="text" :value="message.value">
+    <hr>
+    <h3>v-bind 修飾子（.prop をつけると、$el にプロパティを設定できる）</h3>
+    <div v-bind:text-content.prop="message.value2">hogehoge</div>
+    <div v-bind:scroll-top.prop="scroll" class="box">
+      long contents<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      ( `꒳´ )<br>
+      Last<br>
+    </div>
+    <input type="range" v-model.number="scroll" max="800">
+
+    <hr>
+    <h3>データの更新</h3>
+    <p>{{count}} 回クリックした</p>
+    <button v-on:click="increment">クリック！</button>
+    <button v-on:click="increment_time">3秒後に1増える</button>
+    <button v-on:click="increment_toomuch">3秒後に増えすぎる</button>
+
+    <hr>
+    <h3>クラスとスタイルのバインディング</h3>
+    <p v-bind:class="{ child: isChild, 'is-active': isActive }">Text</p>
+    <p v-bind:style="{ color: textColor, backgroundColor: bgColor }">TEXT</p>
+    <p v-bind:class="classObject">Class object style</p>
+    <p v-bind:style="styleObject">Style object</p>
+    <img v-bind="img_item"><br>
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+      <circle cx="100" cy="80" v-bind:r="radius" fill="lightpink"></circle>
+    </svg><br>
+    <input type="range" min="10" max="70" v-model="radius">
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
   <script>
+    new Vue({
+      el: '#sec08',
+      data: {
+        message: {
+          value: 'text message (っ ॑꒳ ॑c)',
+          value2: 'hello! :)'
+        },
+        list: ['1', '2', '3', '4', '(っºΔºc)'],
+        scroll: 0,
+        count: 0,
+        isChild: true,
+        isActive: true,
+        textColor: 'red',
+        bgColor: 'lightgray',
+        // スタイルをオブジェクトで渡す
+        classObject: {
+          child: true,
+          'is-active': true
+        },
+        styleObject: {
+          color: 'blue',
+          backgroundColor: 'aqua'
+        },
+        // image
+        img_item: {
+          id: 'haku',
+          src: './img/icon_haku_small.png',
+          width: 100,
+          height: 100,
+          alt: 'ハク',
+        },
+        radius: 50
+      },
+      methods: {
+        increment() {
+          this.count++;
+        },
+        increment_time: function(){
+          var vm = this
+          setTimeout(function(){ vm.count++; }, 3000)
+        },
+        increment_toomuch: function(){
+          setTimeout(() => { this.count += 5000000000000000 }, 3000)
+        }
+      },
+      mounted: function() {
+        this.scroll = 0
+      }
+    })
   </script>
 </body>
 
